@@ -1,0 +1,38 @@
+pipeline {
+    agent any
+
+    stages {
+
+        
+
+        stage('Create TF Job') {
+            steps {
+                jobDsl(
+                    scriptText: '''
+                        pipelineJob('TFJOB-createdbyseedjob') {
+                            description('TF Pipeline created by Seed Job')
+
+                            definition {
+                                cpsScm {
+                                    scm {
+                                        git {
+                                            remote {
+                                                url('https://github.com/anandambitionv2/jenkins-pipelines-v2.git')
+                                            }
+
+                                            branch('*/main')
+                                        }
+                                    }
+
+                                    scriptPath('JenkinsFile')
+                                    lightweight()
+                                }
+                            }
+                        }
+                    '''
+                )
+            }
+        }
+
+    }
+}
