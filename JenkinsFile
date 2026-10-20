@@ -32,6 +32,32 @@ pipeline {
                     '''
                 )
             }
+            steps {
+                jobDsl(
+                    scriptText: '''
+                        pipelineJob('TFJOB2-createdbyseedjob') {
+                            description('TF Pipeline created by Seed Job')
+
+                            definition {
+                                cpsScm {
+                                    scm {
+                                        git {
+                                            remote {
+                                                url('https://github.com/anandambitionv2/jenkins-pipelines-v2.git')
+                                            }
+
+                                            branch('*/main')
+                                        }
+                                    }
+
+                                    scriptPath('JenkinsFile')
+                                    lightweight()
+                                }
+                            }
+                        }
+                    '''
+                )
+            }
         }
 
     }
